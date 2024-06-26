@@ -76,9 +76,24 @@ class _BetterPlayerMaterialControlsState
         if (BetterPlayerMultipleGestureDetector.of(context) != null) {
           BetterPlayerMultipleGestureDetector.of(context)!.onTap?.call();
         }
-        controlsNotVisible
-            ? cancelAndRestartTimer()
-            : changePlayerControlsNotVisible(true);
+        // controlsNotVisible
+        //     ? cancelAndRestartTimer()
+        //     : changePlayerControlsNotVisible(true);
+        final bool isFinished = isVideoFinished(_latestValue);
+        if (isFinished) {
+          if (_latestValue != null && _latestValue!.isPlaying) {
+            if (_displayTapped) {
+              changePlayerControlsNotVisible(true);
+            } else {
+              cancelAndRestartTimer();
+            }
+          } else {
+            _onPlayPause();
+            changePlayerControlsNotVisible(true);
+          }
+        } else {
+          _onPlayPause();
+        }
       },
       onDoubleTap: () {
         if (BetterPlayerMultipleGestureDetector.of(context) != null) {
@@ -451,17 +466,23 @@ class _BetterPlayerMaterialControlsState
     return _buildHitAreaClickableButton(
       icon: isFinished
           ? Icon(
-              Icons.replay,
+              _controlsConfiguration.replayIcon,
               size: 42,
               color: _controlsConfiguration.iconsColor,
             )
-          : Icon(
-              controller.value.isPlaying
-                  ? _controlsConfiguration.pauseIcon
-                  : _controlsConfiguration.playIcon,
-              size: 42,
-              color: _controlsConfiguration.iconsColor,
-            ),
+          : controller.value.isPlaying
+              ? _controlsConfiguration.pauseIcon != null
+                  ? Icon(
+                      _controlsConfiguration.pauseIcon,
+                      size: 42,
+                      color: _controlsConfiguration.iconsColor,
+                    )
+                  : Container()
+              : Icon(
+                  _controlsConfiguration.playIcon,
+                  size: 42,
+                  color: _controlsConfiguration.iconsColor,
+                ),
       onClicked: () {
         if (isFinished) {
           if (_latestValue != null && _latestValue!.isPlaying) {
