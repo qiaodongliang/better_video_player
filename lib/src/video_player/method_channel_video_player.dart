@@ -228,6 +228,15 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
   }
 
   @override
+  Future<Duration> getDuration(int? textureId) async {
+    return Duration(
+        milliseconds: await _channel.invokeMethod<int>(
+          'duration',
+          <String, dynamic>{'textureId': textureId},
+        ) ??
+            0);
+
+  @override
   Future<void> enablePictureInPicture(int? textureId, double? top, double? left,
       double? width, double? height) async {
     return _channel.invokeMethod<void>(
