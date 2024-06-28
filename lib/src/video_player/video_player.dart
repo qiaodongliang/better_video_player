@@ -232,8 +232,9 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
           value = value.copyWith(isBuffering: true);
           break;
         case VideoEventType.bufferingEnd:
+          Duration? videoDuration = await duration;
           if (value.isBuffering) {
-            value = value.copyWith(isBuffering: false);
+            value = value.copyWith(isBuffering: false, duration: videoDuration);
           }
           break;
 
@@ -518,6 +519,13 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
       return null;
     }
     return _videoPlayerPlatform.getAbsolutePosition(_textureId);
+  }
+
+  Future<Duration?> get duration async {
+    if (!value.initialized && _isDisposed) {
+      return null;
+    }
+    return _videoPlayerPlatform.getDuration(_textureId);
   }
 
   /// Sets the video's current timestamp to be at [moment]. The next
