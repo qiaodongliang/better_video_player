@@ -232,9 +232,15 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
           value = value.copyWith(isBuffering: true);
           break;
         case VideoEventType.bufferingEnd:
-          Duration? videoDuration = await duration;
+          if (Platform.isIOS) {
+            Duration? videoDuration = await duration;
+            if (value.isBuffering) {
+              value = value.copyWith(isBuffering: false, duration: videoDuration);
+            }
+            break;
+          }
           if (value.isBuffering) {
-            value = value.copyWith(isBuffering: false, duration: videoDuration);
+            value = value.copyWith(isBuffering: false);
           }
           break;
 
