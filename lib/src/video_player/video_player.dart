@@ -207,7 +207,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     unawaited(_applyLooping());
     unawaited(_applyVolume());
 
-    void eventListener(VideoEvent event) {
+    void eventListener(VideoEvent event) async {
       if (_isDisposed) {
         return;
       }
