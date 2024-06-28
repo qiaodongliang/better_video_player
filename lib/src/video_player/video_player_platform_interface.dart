@@ -137,6 +137,11 @@ abstract class VideoPlayerPlatform {
     throw UnimplementedError('getAbsolutePosition() has not been implemented.');
   }
 
+  /// Gets the video duration as [DateTime].
+  Future<Duration> getDuration(int? textureId) {
+    throw UnimplementedError('duration() has not been implemented.');
+  }
+
   ///Enables PiP mode.
   Future<void> enablePictureInPicture(int? textureId, double? top, double? left,
       double? width, double? height) {
