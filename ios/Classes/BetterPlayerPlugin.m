@@ -418,6 +418,8 @@ bool _remoteCommandsInitialized = false;
             result(@([player position]));
         } else if ([@"absolutePosition" isEqualToString:call.method]) {
             result(@([player absolutePosition]));
+        } else if ([@"duration" isEqualToString:call.method]) {
+            result(@([player duration]));
         } else if ([@"seekTo" isEqualToString:call.method]) {
             [player seekTo:[argsMap[@"location"] intValue]];
             result(nil);
