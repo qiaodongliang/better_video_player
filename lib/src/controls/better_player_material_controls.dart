@@ -121,7 +121,8 @@ class _BetterPlayerMaterialControlsState
               right: 0,
               child: _buildTopBar(),
             ),
-            Positioned(bottom: 0, left: 0, right: 0, child: _buildBottomBar()),
+            Positioned(
+                bottom: 0, left: 0, right: 0, child: _buildBottomBar()),
             _buildNextVideoWidget(),
           ],
         ),
@@ -379,13 +380,18 @@ class _BetterPlayerMaterialControlsState
     }
     return Container(
       child: Center(
-        child: AnimatedOpacity(
-          opacity: controlsNotVisible ? 0.0 : 1.0,
-          duration: _controlsConfiguration.controlsHideTime,
-          child: _buildMiddleRow(),
-        ),
+        child: _buildMiddleRow(),
       ),
     );
+    // return Container(
+    //   child: Center(
+    //     child: AnimatedOpacity(
+    //       opacity: controlsNotVisible ? 0.0 : 1.0,
+    //       duration: _controlsConfiguration.controlsHideTime,
+    //       child: _buildMiddleRow(),
+    //     ),
+    //   ),
+    // );
   }
 
   Widget _buildMiddleRow() {
@@ -395,23 +401,32 @@ class _BetterPlayerMaterialControlsState
       height: double.infinity,
       child: _betterPlayerController?.isLiveStream() == true
           ? const SizedBox()
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                if (_controlsConfiguration.enableSkips)
-                  Expanded(child: _buildSkipButton())
-                else
-                  const SizedBox(),
-                if (_controlsConfiguration.enableReplay)
-                  Expanded(child: _buildReplayButton(_controller!))
-                else
-                  const SizedBox(),
-                if (_controlsConfiguration.enableSkips)
-                  Expanded(child: _buildForwardButton())
-                else
-                  const SizedBox(),
-              ],
-            ),
+          : !_controlsConfiguration.enableSkips &&
+                  _controlsConfiguration.enableReplay &&
+                  !_controller!.value.isPlaying
+              ? Container(
+                  alignment: Alignment.center,
+                  constraints:
+                      const BoxConstraints(maxHeight: 80.0, maxWidth: 80.0),
+                  child: _buildReplayButton(_controller!),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (_controlsConfiguration.enableSkips)
+                      Expanded(child: _buildSkipButton())
+                    else
+                      const SizedBox(),
+                    if (_controlsConfiguration.enableReplay)
+                      Expanded(child: _buildReplayButton(_controller!))
+                    else
+                      const SizedBox(),
+                    if (_controlsConfiguration.enableSkips)
+                      Expanded(child: _buildForwardButton())
+                    else
+                      const SizedBox(),
+                  ],
+                ),
     );
   }
 
@@ -686,7 +701,6 @@ class _BetterPlayerMaterialControlsState
       _betterPlayerController!.pause();
     } else {
       cancelAndRestartTimer();
-
       if (!_controller!.value.initialized) {
       } else {
         if (isFinished) {
