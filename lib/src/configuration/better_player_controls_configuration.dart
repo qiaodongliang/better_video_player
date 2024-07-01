@@ -14,12 +14,21 @@ class BetterPlayerControlsConfiguration {
 
   ///Color of icons
   final Color iconsColor;
+  
+  /// Widget of play
+  final Widget? play;
 
   ///Icon of play
   final IconData playIcon;
   
+  /// Widget of Replay
+  final Widget? replay;
+  
   ///Icon of Replay
   final IconData replayIcon;
+  
+  /// Widget of pause
+  final Widget? pause;
 
   ///Icon of pause
   final IconData? pauseIcon;
@@ -171,8 +180,11 @@ class BetterPlayerControlsConfiguration {
     this.controlBarColor = Colors.black87,
     this.textColor = Colors.white,
     this.iconsColor = Colors.white,
-    this.replayIcon = Icons.replay,
+    this.play,
     this.playIcon = Icons.play_arrow_outlined,
+    this.replay,
+    this.replayIcon = Icons.replay,
+    this.pause,
     this.pauseIcon,
     this.muteIcon = Icons.volume_up_outlined,
     this.unMuteIcon = Icons.volume_off_outlined,
