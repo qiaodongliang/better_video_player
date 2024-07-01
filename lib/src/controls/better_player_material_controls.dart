@@ -465,24 +465,30 @@ class _BetterPlayerMaterialControlsState
     final bool isFinished = isVideoFinished(_latestValue);
     return _buildHitAreaClickableButton(
       icon: isFinished
-          ? Icon(
-              _controlsConfiguration.replayIcon,
-              size: 42,
-              color: _controlsConfiguration.iconsColor,
-            )
-          : controller.value.isPlaying
-              ? _controlsConfiguration.pauseIcon != null
-                  ? Icon(
-                      _controlsConfiguration.pauseIcon,
-                      size: 42,
-                      color: _controlsConfiguration.iconsColor,
-                    )
-                  : Container()
+          ? _controlsConfiguration.replay != null
+              ? _controlsConfiguration.replay
               : Icon(
-                  _controlsConfiguration.playIcon,
+                  _controlsConfiguration.replayIcon,
                   size: 42,
                   color: _controlsConfiguration.iconsColor,
-                ),
+                )
+          : controller.value.isPlaying
+              ? _controlsConfiguration.pause != null
+                  ? _controlsConfiguration.pause
+                  : _controlsConfiguration.pauseIcon != null
+                      ? Icon(
+                          _controlsConfiguration.pauseIcon,
+                          size: 42,
+                          color: _controlsConfiguration.iconsColor,
+                        )
+                      : Container()
+              : _controlsConfiguration.play != null
+                  ? _controlsConfiguration.play
+                  : Icon(
+                      _controlsConfiguration.playIcon,
+                      size: 42,
+                      color: _controlsConfiguration.iconsColor,
+                    ),
       onClicked: () {
         if (isFinished) {
           if (_latestValue != null && _latestValue!.isPlaying) {
