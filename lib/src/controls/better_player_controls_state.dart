@@ -24,6 +24,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
   void cancelAndRestartTimer();
 
   bool isVideoFinished(VideoPlayerValue? videoPlayerValue) {
+    videoPlayerValue = betterPlayerController?.videoPlayerController?.value;
     return videoPlayerValue?.position != null &&
         videoPlayerValue?.duration != null &&
         videoPlayerValue!.position.inMilliseconds != 0 &&
